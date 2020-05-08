@@ -23,21 +23,21 @@ public class CursoResource {
     private final Gson gson = new Gson();
     
     @GET
-    @Produces("application/json")
+    @Produces("application/json;charset=utf-8")
     public String getCursos(){
         return gson.toJson(ejb.consultarTodos());
     }
     
     @Path("{id}")
     @GET
-    @Produces("application/json")
+    @Produces("application/json;charset=utf-8")
     public String getCurso(@PathParam("id")String id){
         return gson.toJson(ejb.consultarPorId(Integer.valueOf(id)));
     }
     
     @POST
-    @Produces("application/json")
-    @Consumes("application/json")
+    @Produces("application/json;charset=utf-8")
+    @Consumes("application/json;charset=utf-8")
     public String salvarCurso(String curso){
         Curso novoCurso = gson.fromJson(curso, Curso.class);
         return gson.toJson(ejb.salvar(novoCurso));
@@ -50,7 +50,7 @@ public class CursoResource {
     }
     
     @PUT
-    @Consumes("application/json")
+    @Consumes("application/json;charset=utf-8")
     public void atualizarCurso(String curso){
         salvarCurso(curso);
     }

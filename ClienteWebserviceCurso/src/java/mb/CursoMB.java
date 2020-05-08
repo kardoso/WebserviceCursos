@@ -21,16 +21,16 @@ import modelo.Curso;
 public class CursoMB implements Serializable{
     private Curso curso = new Curso();
     private List<Curso> cursos = new ArrayList();
-    private final Client client = ClientBuilder.newClient();
-    private final Gson gson = new Gson();
+    private Client client = ClientBuilder.newClient();
+    private Gson gson = new Gson();
     
     public CursoMB(){
         recarregar();
     }
     
-    private void recarregar(){
+    public void recarregar(){
         WebTarget webtarget = client.target("http://localhost:8080/CursosWebserviceRest/recursos/curso");
-        Invocation.Builder invocationBuilder = webtarget.request(MediaType.APPLICATION_JSON + "; charset=utf-8");
+        Invocation.Builder invocationBuilder = webtarget.request("application/json;charset=utf-8");
         String json = invocationBuilder.get(String.class);
         
         cursos = gson.fromJson(json, new TypeToken<List<Curso>>(){}.getType());
@@ -38,8 +38,8 @@ public class CursoMB implements Serializable{
     
     public String salvar() {
         WebTarget webtarget = client.target("http://localhost:8080/CursosWebserviceRest/recursos/curso");
-        Invocation.Builder invocationBuilder = webtarget.request(MediaType.APPLICATION_JSON + "; charset=utf-8");
-        Response response = invocationBuilder.post(Entity.entity(curso, MediaType.APPLICATION_JSON + "; charset=utf-8"));
+        Invocation.Builder invocationBuilder = webtarget.request("application/json;charset=utf-8");
+        Response response = invocationBuilder.post(Entity.entity(curso, "application/json;charset=utf-8"));
         
         curso = new Curso();
         recarregar();
@@ -52,7 +52,7 @@ public class CursoMB implements Serializable{
     
     public void remover(Curso c){
         WebTarget webtarget = client.target("http://localhost:8080/CursosWebserviceRest/recursos/curso/" + c.getId());
-        Invocation.Builder invocationBuilder = webtarget.request(MediaType.APPLICATION_JSON + "; charset=utf-8");
+        Invocation.Builder invocationBuilder = webtarget.request("application/json;charset=utf-8");
         Response response = invocationBuilder.delete();
         recarregar();
     }
